@@ -33,11 +33,19 @@ class Item(Resource):
     def post(self, name):
         data = request.get_json()
         for item in items:
-            if item['name']== name and item['price']== data['price']:
+            if item['name']== name:
                 return {"message":"bad request item already present"},400
         item = {'name':name,'price':data['price']}
         items.append(item),201
         return {'items':item}
+
+    def delete(self, name):
+    # coz of global keyword here the items will be the one at top of our code 
+        global items
+        for item in items:
+            if item['name'] != name:
+                items = item
+        return {'message':'item deleted'}
 
 class ItemList(Resource):
     def get(self):
