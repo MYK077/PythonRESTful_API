@@ -31,21 +31,32 @@ class Item(Resource):
 
 
     def post(self, name):
-        data = request.get_json()
         for item in items:
             if item['name']== name:
                 return {"message":"bad request item already present"},400
+        data = request.get_json()
         item = {'name':name,'price':data['price']}
         items.append(item),201
         return {'items':item}
 
     def delete(self, name):
-    # coz of global keyword here the items will be the one at top of our code 
+# coz of global keyword here the items will be the one at top of our code
         global items
         for item in items:
             if item['name'] != name:
                 items = item
         return {'message':'item deleted'}
+# no matter how many times you call put function the output never changes
+    def put(self,name):
+        data = request.get_json()
+        for item in items:
+            if item['name']==name:
+                item = {'name':name,'price':data['price']}
+                item.update(item)
+                return {"message":"item updated"}
+#The update() method adds element(s) to the dictionary if the key is not in the dictionary. If the key is in the dictionary, it updates the key with the new value.
+        items.append({'name':name,"price":data['price']})
+        return {"message":"item updated"}
 
 class ItemList(Resource):
     def get(self):
