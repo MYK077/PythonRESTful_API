@@ -52,9 +52,10 @@ class Item(Resource):
         for item in items:
             if item['name']==name:
                 item = {'name':name,'price':data['price']}
+#The update() method adds element(s) to the dictionary if the key is not in the dictionary.
+# If the key is in the dictionary, it updates the key with the new value.                
                 item.update(item)
                 return {"message":"item updated"}
-#The update() method adds element(s) to the dictionary if the key is not in the dictionary. If the key is in the dictionary, it updates the key with the new value.
         items.append({'name':name,"price":data['price']})
         return {"message":"item updated"}
 

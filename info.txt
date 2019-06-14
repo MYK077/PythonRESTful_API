@@ -1,0 +1,20 @@
+instead of using request.get_json we can also use:
+Request Parsing
+
+below is from flask documentation:
+
+from flask_restful import reqparse
+
+parser = reqparse.RequestParser()
+parser.add_argument('rate', type=int, help='Rate cannot be converted')
+parser.add_argument('name')
+args = parser.parse_args()
+
+for more details goto the following links:
+https://flask-restful.readthedocs.io/en/0.3.5/reqparse.html
+
+#########################################################################################
+
+For this project we are using sqlite, which is supported by python 3.5
+so we dont have to install it from pip.
+sqlite3 works by storing the data to a file 
