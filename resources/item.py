@@ -1,21 +1,8 @@
-# no longer need to do jsonify when we are using flask restful , we can directly return dictionaries
-# Resource are built on top of Flask pluggable views giving easy access to multiple HTTP methods that are
-# defined on resources i.e Items or Student
-# request.get_json(force=True) this automatically set the Content-Type header to application/json,
-# even if its not set , request.get_json(silent=True) this returns None
 import sqlite3
-from flask import Flask, request , jsonify
-from flask_restful import Resource, Api, reqparse
+from flask import Flask, request, jsonify
+from flask_restful import Resource,reqparse, Api
+from security import authenticate,identity
 from flask_jwt import JWT, jwt_required, current_identity
-from security1 import authenticate,identity
-from user1 import UserRegistration
-
-
-app = Flask(__name__)
-app.secret_key = "secret123"
-api = Api(app)
-
-jwt = JWT(app, authenticate, identity)
 
 class Item(Resource):
     parser = reqparse.RequestParser()
@@ -92,12 +79,5 @@ class ItemList(Resource):
         if items:
             for item in items:
                 itemsList.append({"name":item[1],"price":item[2]})
-            return itemsList
+            return {"items":itemsList}
         return {"message":"database is empty"}
-#end points
-api.add_resource(Item,'/item/<string:name>')
-api.add_resource(ItemList,'/items')
-api.add_resource(UserRegistration,'/register')
-
-if __name__ == '__main__':
-    app.run(port=3000,debug=True)

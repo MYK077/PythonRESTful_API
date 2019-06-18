@@ -1,4 +1,4 @@
-from user1 import User
+from resources.user import User
 
 
 def authenticate(username,password):
